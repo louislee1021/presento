@@ -1,20 +1,18 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace Nahid\Presento\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-final class HelpersTest extends TestCase
-{
-    public function camelCaseDataProvider(): array
-    {
+final class HelpersTest extends TestCase {
+    public function camelCaseDataProvider() {
         return [
             // [ 'actual data', 'expected data', 'delimiter' (optional) ]
             ["method", "Method"],
             ["double_word", "DoubleWord"],
             ["a_lot_of_words", "ALotOfWords"],
             ["FIX_CAPITALIZATION", "FixCapitalization"],
-            ["this-should-work-too", "ThisShouldWorkToo", "-"]
+            ["this-should-work-too", "ThisShouldWorkToo", "-"],
         ];
     }
 
@@ -25,8 +23,7 @@ final class HelpersTest extends TestCase
      * @param string $expected
      * @param string|null $delimiter
      */
-    public function testToCamelCaseMethod(string $string, string $expected, string $delimiter=null): void
-    {
+    public function testToCamelCaseMethod($string, $expected, $delimiter = null) {
         if ($delimiter) {
             $actual = to_camel_case($string, $delimiter);
         } else {
@@ -36,14 +33,13 @@ final class HelpersTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function isCollectionDataProvider(): array
-    {
+    public function isCollectionDataProvider() {
         return [
             // [ 'actual data', 'expected data' ]
             ["scalar_data", false],
             [[], false],
             [[1, 2, 3], false],
-            [[ 'numbers' => [ 1, 2, 3], 'names' => [ "john", "Doe"]], true]
+            [['numbers' => [1, 2, 3], 'names' => ["john", "Doe"]], true],
         ];
     }
 
@@ -53,13 +49,11 @@ final class HelpersTest extends TestCase
      * @param mixed $data
      * @param bool $expected
      */
-    public function testIsCollectionMethod($data, bool $expected): void
-    {
+    public function testIsCollectionMethod($data, $expected) {
         $this->assertEquals($expected, is_collection($data));
     }
 
-    public function getFromArrayDataProvider(): array
-    {
+    public function getFromArrayDataProvider() {
         return [
             // [ 'actual data', 'path', 'expected data' ]
             [["key" => "value"], "key", "value"],
@@ -79,13 +73,11 @@ final class HelpersTest extends TestCase
      * @param string $path
      * @param mixed $expected
      */
-    public function testGetFromArrayMethod($data, string $path, $expected): void
-    {
+    public function testGetFromArrayMethod($data, $path, $expected) {
         $this->assertEquals($expected, get_from_array($data, $path));
     }
 
-    public function blankDataProvider(): array
-    {
+    public function blankDataProvider() {
         return [
             // [ 'actual data', 'expected data' ]
             [1, false],
@@ -103,8 +95,7 @@ final class HelpersTest extends TestCase
      * @param mixed $data
      * @param bool $expected
      */
-    public function testBlankMethod($data, bool $expected): void
-    {
+    public function testBlankMethod($data, $expected) {
         $this->assertEquals($expected, blank($data));
     }
 }

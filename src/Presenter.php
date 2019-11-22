@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php
 
 namespace Nahid\Presento;
 
+abstract class Presenter {
 
-abstract class Presenter
-{
     /**
      * @var string|null
      */
@@ -36,8 +35,7 @@ abstract class Presenter
      */
     protected $isProcessed = false;
 
-    public function __construct($data = null, string $transformer = null)
-    {
+    public function __construct($data = null, $transformer = null) {
         $this->presentScheme = $this->present();
         $this->data = $this->init($data);
 
@@ -47,13 +45,11 @@ abstract class Presenter
         }
     }
 
-    public function __invoke()
-    {
+    public function __invoke() {
         return $this->get();
     }
 
-    public function __toString() : string
-    {
+    public function __toString() {
         return json_encode($this->generatedData);
     }
 
@@ -61,19 +57,16 @@ abstract class Presenter
      * @param array $present
      * @return $this
      */
-    public function setPresent(array $present)
-    {
+    public function setPresent($present) {
         $this->presentScheme = $present;
         return $this;
     }
-
 
     /**
      * @param string $transformer
      * @return $this
      */
-    public function setTransformer(string $transformer)
-    {
+    public function setTransformer($transformer) {
         $this->transformer = $transformer;
         return $this;
     }
@@ -82,8 +75,7 @@ abstract class Presenter
      * @return array
      * @since v1.1
      */
-    public function getPresent() : array
-    {
+    public function getPresent() {
         return $this->presentScheme;
     }
 
@@ -91,20 +83,18 @@ abstract class Presenter
      * @return string|null
      * @since v1.1
      */
-    public function getTransformer()
-    {
+    public function getTransformer() {
         return $this->transformer;
     }
 
-    abstract public function present() : array;
+    abstract public function present();
 
     /**
      * get transformer name, this method can be override
      *
      * @return null|string
      */
-    public function transformer()
-    {
+    public function transformer() {
         return null;
     }
 
@@ -113,8 +103,7 @@ abstract class Presenter
      * @return mixed
      * @since v1.1
      */
-    public function init($data)
-    {
+    public function init($data) {
         return $this->convert($data);
     }
 
@@ -124,8 +113,7 @@ abstract class Presenter
      *
      * @deprecated 1.1.0
      */
-    public function convert($data)
-    {
+    public function convert($data) {
         return $data;
     }
 
@@ -134,8 +122,7 @@ abstract class Presenter
      * @param $data
      * @return mixed
      */
-    public function map($data)
-    {
+    public function map($data) {
         return $data;
     }
 
@@ -148,15 +135,16 @@ abstract class Presenter
     {
         $this->isProcessed = true;
 
-        if (is_collection($this->data)) {
-            $generatedData = [];
-            foreach ($this->data  as $property => $data) {
-                $generatedData[$property] = $this->handleDefault($this->map($data));
-            }
-            return $generatedData;
-        }
-
         return $this->handleDefault($this->map($this->data));
+
+        // Commented this issue 
+        // if (is_collection($this->data)) {
+        //     $generatedData = [];
+        //     foreach ($this->data  as $property => $data) {
+        //         $generatedData[$property] = $this->handleDefault($this->map($data));
+        //     }
+        //     return $generatedData;
+        // }
     }
 
     protected function handleDefault($data)
@@ -175,42 +163,48 @@ abstract class Presenter
 
     /**
      * process data based presented data model
-     *
-     * @param array $data
+     * 
+     * 
+     * @param array $data  
      * @return array
      */
-    public function process($data)
-    {
+    public function process($data) {
         $present = $this->presentScheme;
+        var_dump("presentScheme");
+        var_dump($present);
         $record = [];
 
+        // When there is no filter presented by the method present() of presenter
         if (count($present) == 0) {
             $record = $data;
-        }
-
-        foreach ($present as $key => $value) {
-            if (is_numeric($key)) {
-                $key = $value;
-            }
-
-            if (is_array($value) && count($value) == 1) {
-                $class = array_keys($value)[0];
-                $params = $value[$class];
-                $arrData = array_shift($params) ?? '.';
-                $transformer = array_shift($params);
-                $args = [get_from_array($data, $arrData), $transformer] + $params;
-
-                $presenter = new $class(... $args);
-                $newVal = $value;
-                if ($presenter instanceof Presenter) {
-                    $newVal = $presenter->handle();
+        } else {
+            foreach ($present as $key => $value) {
+                if (is_numeric($key)) {
+                    $key = $value;
                 }
-
-                $record[$key] = $newVal;
-            } else {
-                $record[$key] = $value ? get_from_array($data, $value) : $value;
+    
+                if (is_array($value) && count($value) == 1) {
+                    $class = array_keys($value)[0];
+                    $params = $value[$class];
+                    $arrData = null !== array_shift($params) ? array_shift($params) : '.';
+                    $transformer = array_shift($params);
+                    $args = [get_from_array($data, $arrData), $transformer] + $params;
+    
+                    $presenter = new $class(...$args);
+                    $newVal = $value;
+                    if ($presenter instanceof Presenter) {
+                        $newVal = $presenter->handle();
+                    }
+    
+                    $record[$key] = $newVal;
+                } else {
+                    $record[$key] = $value ? get_from_array($data, $value) : $value;
+                }
             }
+            var_dump("partial generated record"); var_dump($record);
         }
+
+        
 
         return $record;
     }
@@ -221,8 +215,7 @@ abstract class Presenter
      * @param array $data
      * @return array
      */
-    protected function transform($data)
-    {
+    protected function transform($data) {
         if (!is_array($data)) {
             return $data;
         }
@@ -242,8 +235,7 @@ abstract class Presenter
      *
      * @return string
      */
-    public function toJson() : string
-    {
+    public function toJson() {
         return json_encode($this->get());
     }
 
@@ -251,8 +243,7 @@ abstract class Presenter
      * get full set of data as array
      *
      */
-    public function get()
-    {
+    public function get() {
         if (!$this->isProcessed) {
             $this->generatedData = $this->handle();
         }

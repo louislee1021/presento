@@ -1,12 +1,10 @@
-<?php declare(strict_types = 1);
+<?php
 
 namespace Nahid\Presento;
 
-
 use Nahid\Presento\Exceptions\BadPropertyTransformerMethodException;
 
-abstract class Transformer
-{
+abstract class Transformer {
     protected $generatedData = [];
     /**
      * @var null | string
@@ -14,14 +12,12 @@ abstract class Transformer
     protected $propertyMethodTransform = 'to_camel_case';
     private $data = [];
 
-    public function __construct(array $data)
-    {
+    public function __construct($data) {
         $this->data = $data;
         $this->transform();
     }
 
-    public function __invoke() : array
-    {
+    public function __invoke() {
         return $this->getData();
     }
 
@@ -30,8 +26,7 @@ abstract class Transformer
      *
      * @return void
      */
-    public function transform()
-    {
+    public function transform() {
         foreach ($this->data as $key => $value) {
             $this->generatedData[$key] = $this->callPropertyFunction($key, $value);
         }
@@ -43,8 +38,7 @@ abstract class Transformer
      * @param string $property
      * @return bool
      */
-    protected function isPropertyNeedProcess(string $property) : bool
-    {
+    protected function isPropertyNeedProcess($property) {
         $method = $this->getPropertyFunction($property);
 
         return method_exists($this, $method);
@@ -57,8 +51,7 @@ abstract class Transformer
      * @return string
      * @throws BadPropertyTransformerMethodException
      */
-    protected function getPropertyFunction(string $property) : string
-    {
+    protected function getPropertyFunction($property) {
         return sprintf('get%sProperty', $this->propertyMethodTransform($property));
     }
 
@@ -67,13 +60,12 @@ abstract class Transformer
      * @return mixed
      * @throws BadPropertyTransformerMethodException
      */
-    protected function propertyMethodTransform($property)
-    {
+    protected function propertyMethodTransform($property) {
         if (!$this->propertyMethodTransform) {
             return $property;
         }
 
-        if(function_exists($this->propertyMethodTransform)) {
+        if (function_exists($this->propertyMethodTransform)) {
             return call_user_func($this->propertyMethodTransform, $property);
         }
 
@@ -87,8 +79,7 @@ abstract class Transformer
      * @param $value
      * @return mixed
      */
-    protected function callPropertyFunction(string $property, $value)
-    {
+    protected function callPropertyFunction($property, $value) {
         if ($this->isPropertyNeedProcess($property)) {
             return call_user_func_array([$this, $this->getPropertyFunction($property)], [$value]);
         }
@@ -102,8 +93,7 @@ abstract class Transformer
      * @param string $property
      * @return array|mixed|null
      */
-    public function getProperty(string $property)
-    {
+    public function getProperty($property) {
         return get_from_array($this->data, $property);
     }
 
@@ -112,8 +102,7 @@ abstract class Transformer
      *
      * @return array
      */
-    public function getData() : array
-    {
+    public function getData() {
         return $this->generatedData;
     }
 

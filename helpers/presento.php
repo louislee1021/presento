@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 if (!function_exists('to_camel_case')) {
     /**
@@ -9,7 +8,7 @@ if (!function_exists('to_camel_case')) {
      * @param string $delimiter
      * @return string
      */
-    function to_camel_case(string $string, $delimiter = '_') : string
+    function to_camel_case($string, $delimiter = '_')
     {
         if (empty($string)) return $string;
 
@@ -29,7 +28,7 @@ if (!function_exists('get_from_array')) {
      * @param string $node
      * @return mixed|null
      */
-    function get_from_array($map, string $node)
+    function get_from_array($map, $node)
     {
         if ($map === null || !is_array($map) || empty($node) || $node == '.') {
             return $map;
@@ -56,11 +55,17 @@ if (!function_exists('is_collection')) {
      * @param mixed $array
      * @return bool
      */
-    function is_collection($array) : bool
+    function is_collection($array)
     {
         if (!is_array($array)) return false;
+        rsort( $array );
+        return isset( $array[0] ) && is_array( $array[0] );
 
-        return array_keys($array) === range(0, count($array) - 1);
+        // Original
+        //
+        // if (!is_array($array)) return false;
+        //
+        // return array_keys($array) === range(0, count($array) - 1);
     }
 }
 
@@ -72,7 +77,7 @@ if (!function_exists('blank')) {
      * @param $value
      * @return bool
      */
-    function blank($value): bool
+    function blank($value)
     {
         if (is_null($value)) {
             return true;

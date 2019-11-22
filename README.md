@@ -1,5 +1,19 @@
 # Presento
 
+## Differentiation and ChangeLog
+
+20191122 16:35 - Applied PSR-0 indentation
+20191122 16:32 - tested all provided functionality successfully with PHPUnit
+20191122 16:30 - Found issues on multi-dimensional array, fixed eventually.
+20191122 12:18 - PHP 5.6.40 compatible
+20191122 11:30 - What? Yes. I forked.
+
+## Credits
+
+https://medium.com/swlh/using-your-own-forks-with-composer-699358db05d9
+
+## Aim
+
 A data preparing and presenting package for PHP.
 
 ## Why Presento?
@@ -73,7 +87,7 @@ We can simply do that by preparing a Presenter for this like following.
 
 class UserPresenter extends \Nahid\Presento\Presenter
 {
-    public function present() : array
+    public function present()
     {
         return [
             'id',
@@ -135,7 +149,7 @@ Just do the following.
 // UserPresenter.php
 class UserPresenter extends \Nahid\Presento\Presenter
 {
-    public function present() : array
+    public function present()
     {
         return [
             'user_id' => 'id',
@@ -173,7 +187,7 @@ This is how you do it.
 // UserPresenter.php
 class UserPresenter extends \Nahid\Presento\Presenter
 {
-    public function present() : array
+    public function present()
     {
         return [
             'id',
@@ -228,7 +242,7 @@ Let's say our UserPresenter is like this:
 // UserPresenter.php
 class UserPresenter extends \Nahid\Presento\Presenter
 {
-    public function present() : array
+    public function present()
     {
         return [
             'user_id' => 'id',
@@ -291,7 +305,7 @@ You might notice that there is a collection of `projects` in our data set. If ea
 // ProjectPresenter.php
 class ProjectPresenter extends \Nahid\Presento\Presenter
 {
-    public function present() : array
+    public function present()
     {
         return [
             'id',
@@ -315,7 +329,7 @@ Hell Yeah! Just do this:
 
 ```php
 // UserPresenter.php
-public function present() : array
+public function present()
 {
     return [
         'user_id' => 'id',

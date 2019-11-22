@@ -1,8 +1,10 @@
 /vendor/
 /.idea/
+/.vscode
 node_modules/
 npm-debug.log
 yarn-error.log
 composer.lock
 /example/
 /index.php
+phpunit

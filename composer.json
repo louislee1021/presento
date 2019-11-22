@@ -1,20 +1,20 @@
 {
-    "name": "nahid/presento",
-    "description": "Presento is a package for PHP data presenter",
+    "name": "louislee1121/presento",
+    "description": "Presento is a package for PHP 5.6.40 data presenter",
     "type": "library",
     "require": {
-        "php": ">=7.0",
+        "php": ">=5.6",
         "ext-json": "*"
     },
     "require-dev": {
-        "symfony/var-dumper": "4.4.x-dev",
-        "phpunit/phpunit": "^7"
+        "symfony/var-dumper": "3.0.0",
+        "phpunit/phpunit": "^5.7"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": "Nahid Bin Azhar",
-            "email": "nahid.dns@gmail.com"
+            "name": "Louis Lee",
+            "email": "louis@at-creative.com"
         }
     ],
     "minimum-stability": "dev",
