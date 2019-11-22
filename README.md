@@ -27,7 +27,7 @@ ext-json
 ## Installation
 
 ```bash
-composer require louis1021/presento
+composer require louis1021/presento dev-master
 ```
 
 ## Functionality
