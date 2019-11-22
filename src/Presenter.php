@@ -3,7 +3,10 @@
 namespace Nahid\Presento;
 
 abstract class Presenter {
-
+    /**
+     * @var bool
+     */
+    protected $formatDatatables = false;
     /**
      * @var string|null
      */
@@ -131,13 +134,12 @@ abstract class Presenter {
      *
      * @return array
      */
-    public function handle()
-    {
+    public function handle() {
         $this->isProcessed = true;
 
         return $this->handleDefault($this->map($this->data));
 
-        // Commented this issue 
+        // Commented this issue
         // if (is_collection($this->data)) {
         //     $generatedData = [];
         //     foreach ($this->data  as $property => $data) {
@@ -147,8 +149,7 @@ abstract class Presenter {
         // }
     }
 
-    protected function handleDefault($data)
-    {
+    protected function handleDefault($data) {
         if (!blank($data)) {
             return $this->transform($this->process($data));
         }
@@ -163,15 +164,13 @@ abstract class Presenter {
 
     /**
      * process data based presented data model
-     * 
-     * 
-     * @param array $data  
+     *
+     *
+     * @param array $data
      * @return array
      */
     public function process($data) {
         $present = $this->presentScheme;
-        var_dump("presentScheme");
-        var_dump($present);
         $record = [];
 
         // When there is no filter presented by the method present() of presenter
@@ -182,29 +181,26 @@ abstract class Presenter {
                 if (is_numeric($key)) {
                     $key = $value;
                 }
-    
+
                 if (is_array($value) && count($value) == 1) {
                     $class = array_keys($value)[0];
                     $params = $value[$class];
                     $arrData = null !== array_shift($params) ? array_shift($params) : '.';
                     $transformer = array_shift($params);
                     $args = [get_from_array($data, $arrData), $transformer] + $params;
-    
+
                     $presenter = new $class(...$args);
                     $newVal = $value;
                     if ($presenter instanceof Presenter) {
                         $newVal = $presenter->handle();
                     }
-    
-                    $record[$key] = $newVal;
+                    
+                    $this->formatDatatables ? ($record[] = $newVal) : ($record[$key] = $newVal);
                 } else {
-                    $record[$key] = $value ? get_from_array($data, $value) : $value;
+                    $this->formatDatatables ? ($record[] = $value ? get_from_array($data, $value) : $value) : ($record[$key] = $value ? get_from_array($data, $value) : $value);
                 }
             }
-            var_dump("partial generated record"); var_dump($record);
         }
-
-        
 
         return $record;
     }

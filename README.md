@@ -1,20 +1,83 @@
 # Presento
 
+A data preparing and presenting package for PHP.
+
 ## Differentiation and ChangeLog
 
-20191122 16:35 - Applied PSR-0 indentation
-20191122 16:32 - tested all provided functionality successfully with PHPUnit
-20191122 16:30 - Found issues on multi-dimensional array, fixed eventually.
-20191122 12:18 - PHP 5.6.40 compatible
+20191112 17:18 - Added formatting: Datatable        
+20191122 16:35 - Applied PSR-0 indentation.      
+20191122 16:32 - tested all provided functionality successfully with PHPUnit.        
+20191122 16:30 - Found issues on multi-dimensional array, fixed eventually.     
+20191122 12:18 - PHP 5.6.40 compatible.      
 20191122 11:30 - What? Yes. I forked.
 
 ## Credits
 
 https://medium.com/swlh/using-your-own-forks-with-composer-699358db05d9
 
-## Aim
+### Requirements
 
-A data preparing and presenting package for PHP.
+```text
+PHP >= 5.6.40
+ext-json
+```
+
+## Installation
+
+```bash
+composer require louislee1021/presento
+```
+
+## Functionality
+
+1.  `Presenter::present()` present only the necessary fields.       
+
+In `present()` returned array,      
+
+2.  `Presenter::present()` key aliasing: `'user_id => id'` returns new name `user_id`       
+3.  Deep traversing: `'top_package' => 'projects.0.name'` on array `projects`           
+4.  Nested presenter: `'projects' => [ProjectPresenter::class => ['projects']],`
+
+
+5.  Datatable format, array key removals. Inside Presenter class, add this property:    
+`protected $formatDatatables = true;`
+
+6.  Simple transformer override on `user_id => id` :    
+`public function getUserIdProperty($value)`  
+
+```php
+
+// UserTransformer.php
+class UserTransformer extends \Nahid\Presento\Transformer
+{
+    public function getUserIdProperty($value)
+    {
+        return md5($value);
+    }
+}
+
+// UserPresenter.php
+class UserPresenter extends \Nahid\Presento\Presenter
+{
+    public function present()
+    {
+        return [
+            'user_id' => 'id',
+            'name',
+            'email',
+            'type',
+            'is_active',
+        ];
+    }
+
+    public function transformer()
+    {
+        return UserTransformer::class;
+    }
+}
+
+```
+
 
 ## Why Presento?
 
@@ -24,21 +87,6 @@ When we build an API based application, we need to _transform_ the data before _
 Not clear enough? 
 
 Don't worry, you'll get better idea from the [Usage examples](#usage).
-
-### Requirements
-
-```text
-PHP >= 7.0
-ext-json
-```
-
-## Installation
-
-Install the package using composer:
-
-```text
-composer require nahid/presento
-```
 
 ## Usage
 

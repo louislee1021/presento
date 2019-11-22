@@ -88,6 +88,19 @@ final class PresenterTest extends TestCase {
         );
         $this->assertTrue($this->arrayEqual($presenter->get(), $expected));
 
+        $presenter = new TestDatatablePresenterObject(static::$sampleData);
+        //var_dump($presenter);
+        //var_dump("------");
+        $expected = array(
+            123456,
+            "Nahid Bin Azhar",
+            "talk@nahid.im",
+            1,
+            1
+        );
+        
+        $this->assertTrue($this->arrayEqual($presenter->get(), $expected));
+
         $presenter = new TestAliasPresenterWithTransformerObject(static::$sampleData);
         //var_dump($presenter);
         //var_dump("------");
@@ -128,6 +141,20 @@ class TestComplexPresenterObject extends Presenter {
             'type',
             'is_active',
             'projects'
+        ];
+    }
+}
+
+class TestDatatablePresenterObject extends Presenter {
+    protected $formatDatatables = true;
+    
+    public function present() {
+        return [
+            'id',
+            'name',
+            'email',
+            'type',
+            'is_active',
         ];
     }
 }
