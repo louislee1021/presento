@@ -1,12 +1,14 @@
 # Presento
 
-A data preparing and presenting package for PHP.
+Obtain specific formatting using transformers and filtering fields using presenters.
 
 ## Differentiation and ChangeLog
 
-20191112 17:18 - Added formatting: Datatable        
+20191122 18:05 - Updated the ultimate and the only uses of this package. End of this presento world.     
+20191122 18:01 - For the clear convention and future use, changing namespace is required.
+20191122 17:18 - Added formatting: Datatable        
 20191122 16:35 - Applied PSR-0 indentation.      
-20191122 16:32 - tested all provided functionality successfully with PHPUnit.        
+20191122 16:32 - Tested all provided functionality successfully with PHPUnit.        
 20191122 16:30 - Found issues on multi-dimensional array, fixed eventually.     
 20191122 12:18 - PHP 5.6.40 compatible.      
 20191122 11:30 - What? Yes. I forked.

@@ -1,5 +1,5 @@
 {
-    "name": "louislee1121/presento",
+    "name": "louis1021/presento",
     "description": "Presento is a package for PHP 5.6.40 data presenter",
     "type": "library",
     "require": {
@@ -23,7 +23,7 @@
             "helpers/presento.php"
         ],
         "psr-4": {
-            "Nahid\\Presento\\": "src/",
+            "Louis1021\\Presento\\": "src/",
             "Example\\": "example/"
         },
         "exclude-from-classmap": [
@@ -32,7 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-          "Nahid\\Presento\\Tests\\": "tests/"
+          "Louis1021\\Presento\\Tests\\": "tests/"
         }
     }
 }

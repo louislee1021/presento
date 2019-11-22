@@ -1,9 +1,9 @@
 <?php
 
-namespace Nahid\Presento\Tests;
+namespace Louis1021\Presento\Tests;
 
-use Nahid\Presento\Presenter;
-use Nahid\Presento\Transformer;
+use Louis1021\Presento\Presenter;
+use Louis1021\Presento\Transformer;
 use PHPUnit\Framework\TestCase;
 
 final class PresenterTest extends TestCase {
@@ -96,9 +96,9 @@ final class PresenterTest extends TestCase {
             "Nahid Bin Azhar",
             "talk@nahid.im",
             1,
-            1
+            1,
         );
-        
+
         $this->assertTrue($this->arrayEqual($presenter->get(), $expected));
 
         $presenter = new TestAliasPresenterWithTransformerObject(static::$sampleData);
@@ -110,9 +110,9 @@ final class PresenterTest extends TestCase {
             "email" => "talk@nahid.im",
             "type" => 1,
             "is_active" => 1,
-            "top_package" => "Laravel Talk"
+            "top_package" => "Laravel Talk",
         );
-        
+
         $this->assertTrue($this->arrayEqual($presenter->get(), $expected));
     }
 
@@ -131,7 +131,6 @@ final class PresenterTest extends TestCase {
     }
 }
 
-
 class TestComplexPresenterObject extends Presenter {
     public function present() {
         return [
@@ -140,14 +139,14 @@ class TestComplexPresenterObject extends Presenter {
             'email',
             'type',
             'is_active',
-            'projects'
+            'projects',
         ];
     }
 }
 
 class TestDatatablePresenterObject extends Presenter {
     protected $formatDatatables = true;
-    
+
     public function present() {
         return [
             'id',
@@ -159,10 +158,8 @@ class TestDatatablePresenterObject extends Presenter {
     }
 }
 
-class TestTransformer extends Transformer
-{
-    public function getUserIdProperty($value)
-    {
+class TestTransformer extends Transformer {
+    public function getUserIdProperty($value) {
         return -$value;
     }
 }
@@ -175,16 +172,14 @@ class TestAliasPresenterWithTransformerObject extends Presenter {
             'email',
             'type',
             'is_active',
-            "top_package" => "projects.0.name"
+            "top_package" => "projects.0.name",
         ];
     }
 
-    public function transformer()
-    {
+    public function transformer() {
         return TestTransformer::class;
     }
 }
-
 
 class TestPresenterWithNonExistsFieldsObject extends Presenter {
     public function present() {

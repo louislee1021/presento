@@ -1,6 +1,6 @@
 <?php
 
-namespace Nahid\Presento\Tests;
+namespace Louis1021\Presento\Tests;
 
 use PHPUnit\Framework\TestCase;
 
