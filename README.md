@@ -4,6 +4,7 @@ Obtain specific formatting using transformers and filtering fields using present
 
 ## Differentiation and ChangeLog
 
+20191125 19:55 - Added $multi property to class presenter to add feature of processing more than one record.  
 20191122 18:05 - Updated the ultimate and the only uses of this package. End of this presento world.     
 20191122 18:01 - For the clear convention and future use, changing namespace is required.       
 20191122 17:18 - Added formatting: Datatable        
@@ -27,7 +28,7 @@ ext-json
 ## Installation
 
 ```bash
-composer require louis1021/presento dev-master
+composer require louislee1021/presento
 ```
 
 ## Functionality
@@ -46,6 +47,9 @@ In `present()` returned array,
 
 6.  Simple transformer override on `user_id => id` :    
 `public function getUserIdProperty($value)`  
+
+7.  Read multi records
+`protected $multi = true;`
 
 ```php
 

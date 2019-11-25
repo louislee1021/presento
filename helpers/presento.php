@@ -37,7 +37,7 @@ if (!function_exists('get_from_array')) {
         $path = explode('.', $node);
 
         foreach ($path as $val) {
-            if (!array_key_exists($val, $map)) {
+            if ($map === null || !array_key_exists($val, $map)) {
                 return null;
             }
 

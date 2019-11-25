@@ -2,7 +2,14 @@
 
 namespace Louis1021\Presento;
 
+use CommonHelper;
+
 abstract class Presenter {
+    /**
+     *
+     * @var boolean
+     */
+    protected $multi = false;
     /**
      * @var bool
      */
@@ -137,16 +144,18 @@ abstract class Presenter {
     public function handle() {
         $this->isProcessed = true;
 
-        return $this->handleDefault($this->map($this->data));
-
-        // Commented this issue
-        // if (is_collection($this->data)) {
-        //     $generatedData = [];
-        //     foreach ($this->data  as $property => $data) {
-        //         $generatedData[$property] = $this->handleDefault($this->map($data));
-        //     }
-        //     return $generatedData;
-        // }
+        if (!$this->multi) {
+            return $this->handleDefault($this->map($this->data));
+        } else {
+            if (is_array($this->data)) {
+                $generatedData = [];
+                foreach ($this->data as $property => $data) {
+                    //CommonHelper::dump($data, 1);
+                    $generatedData[$property] = $this->handleDefault($this->map($data));
+                }
+                return $generatedData;
+            }
+        }
     }
 
     protected function handleDefault($data) {
@@ -194,7 +203,7 @@ abstract class Presenter {
                     if ($presenter instanceof Presenter) {
                         $newVal = $presenter->handle();
                     }
-                    
+
                     $this->formatDatatables ? ($record[] = $newVal) : ($record[$key] = $newVal);
                 } else {
                     $this->formatDatatables ? ($record[] = $value ? get_from_array($data, $value) : $value) : ($record[$key] = $value ? get_from_array($data, $value) : $value);
