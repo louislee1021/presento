@@ -149,9 +149,9 @@ abstract class Presenter {
         } else {
             if (is_array($this->data)) {
                 $generatedData = [];
-                foreach ($this->data as $property => $data) {
+                foreach ($this->data as $key => $data) {
                     //CommonHelper::dump($data, 1);
-                    $generatedData[$property] = $this->handleDefault($this->map($data));
+                    $generatedData[$key] = $this->handleDefault($this->map($data));
                 }
                 return $generatedData;
             }
@@ -204,9 +204,9 @@ abstract class Presenter {
                         $newVal = $presenter->handle();
                     }
 
-                    $this->formatDatatables ? ($record[] = $newVal) : ($record[$key] = $newVal);
+                    $record[$key] = $newVal;
                 } else {
-                    $this->formatDatatables ? ($record[] = $value ? get_from_array($data, $value) : $value) : ($record[$key] = $value ? get_from_array($data, $value) : $value);
+                    $record[$key] = $value ? get_from_array($data, $value) : $value;
                 }
             }
         }
@@ -222,14 +222,15 @@ abstract class Presenter {
      */
     protected function transform($data) {
         if (!is_array($data)) {
-            return $data;
+            return $this->formatDatatables ? array_values($data) : $data;
         }
 
         $transformerClass = $this->transformer;
 
         if (!is_null($transformerClass)) {
             $transformer = new $transformerClass($data);
-            return $transformer();
+            //CommonHelper::dump($transformer());
+            return $this->formatDatatables ? array_values($transformer()) : $transformer();
         }
 
         return $data;
