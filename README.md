@@ -4,7 +4,8 @@ Obtain specific formatting using transformers and filtering fields using present
 
 ## Differentiation and ChangeLog
 
-20191125 19:55 - Added $multi property to class presenter to add feature of processing more than one record.  
+20191126 11:10 - Fixed the transformer while enabled formatDatatable.        
+20191125 19:55 - Added $multi property to class presenter to add feature of processing more than one record.    
 20191122 18:05 - Updated the ultimate and the only uses of this package. End of this presento world.     
 20191122 18:01 - For the clear convention and future use, changing namespace is required.       
 20191122 17:18 - Added formatting: Datatable        
