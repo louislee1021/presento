@@ -2,8 +2,6 @@
 
 namespace Louis1021\Presento;
 
-use CommonHelper;
-
 abstract class Presenter {
     /**
      *
@@ -233,7 +231,7 @@ abstract class Presenter {
             return $this->formatDatatables ? array_values($transformer()) : $transformer();
         }
 
-        return $data;
+        return $this->formatDatatables ? array_values($data) : $data;
     }
 
     /**
